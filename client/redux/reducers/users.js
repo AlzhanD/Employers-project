@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const GET_USERS = 'GET_USERS'
 const SET_SELECTED = 'SET_SELECTED'
-const SET_ALL_CHECKED = 'SET_ALL_CHECKED'
+const SET_ALL_USERS = 'SET_ALL_USERS'
 
 const initialState = {
   users: [],
@@ -14,9 +14,9 @@ export default (state = initialState, action) => {
     case GET_USERS: {
       return { ...state, users: action.users }
     }
-    case SET_ALL_CHECKED: {
+    case SET_ALL_USERS: {
       if (action.status) {
-        return { ...state, selected: action.user }
+        return { ...state, selected: action.users }
       }
       return {
         ...state,
@@ -49,6 +49,6 @@ export const checkedUsers = (status, selected) => {
   return { type: SET_SELECTED, status, selected }
 }
 
-export const allUserChecked = (status, user) => {
-  return { type: SET_ALL_CHECKED, status, user }
+export const allUserChecked = (status, users) => {
+  return { type: SET_ALL_USERS, status, users }
 }

@@ -6,6 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const { v4: uuidv4 } = require('uuid')
+
 const eslintCacheIdentifier = JSON.stringify(fs.statSync('.eslintrc').mtimeMs)
 require('dotenv').config()
 
@@ -47,7 +48,7 @@ const config = {
         target: `http://localhost:${process.env.PORT || 8090}`,
         secure: false,
         changeOrigin: true,
-        ws: (process.env.ENABLE_SOCKETS || false)
+        ws: process.env.ENABLE_SOCKETS || false
       }
     ]
   },
@@ -63,7 +64,6 @@ const config = {
             loader: 'eslint-loader',
             options: {
               cache: true,
-
               cacheIdentifer: eslintCacheIdentifier
             }
           }

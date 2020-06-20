@@ -1,22 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { allUserChecked, checkedUsers } from '../redux/reducers/users'
+import ListItem from './listItem'
+import { allUserChecked } from '../redux/reducers/users'
 
 const Users = () => {
   const dispatch = useDispatch()
+  const [allChecked, setAllChecked] = useState(false)
   const users = useSelector((store) => store.usersData.users)
   const checkedData = useSelector((store) => store.usersData.selected)
 
   return (
     <div>
-      <table className="table-auto  shadow-inner">
+      <table className="table-auto  shadow-inner mt-5">
         <thead>
           <tr>
             <th className="w-full px-4 py-2  ">
               <div className="flex items-center">
                 <input
                   type="checkbox"
-                  onChange={(e) => dispatch(allUserChecked(e.target.checked, users))}
+                  onChange={(e) => {
+                    setAllChecked(e.target.checked)
+                    dispatch(allUserChecked(e.target.checked, users))
+                  }}
+                  checked={allChecked}
                 />
                 <div className="ml-4">Name</div>
               </div>
@@ -27,19 +33,7 @@ const Users = () => {
         </thead>
         <tbody>
           {users.map((el) => (
-            <tr key={el.name} className="bg-gray-100 w-auto">
-              <td className="border px-4 py-2">
-                <div className="flex">
-                  <input
-                    type="checkbox"
-                    onChange={(e) => dispatch(checkedUsers(e.target.checked, el))}
-                  />
-                  <div className="ml-4">{el.name}</div>
-                </div>
-              </td>
-              <td className="border px-4 py-2">{el.username}</td>
-              <td className="border px-4 py-2 ">{el.age}</td>
-            </tr>
+            <ListItem key={el.name} el={el} allChecked={allChecked} />
           ))}
         </tbody>
       </table>
